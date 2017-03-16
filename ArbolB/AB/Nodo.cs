@@ -25,7 +25,7 @@ namespace ArbolB.AB
             this.usuario = usuario;
             this.empresa = empresa;
             this.depto = depto;
-            this.fecha = fecha;
+            this.fecha = fecha;   
             this.hora = hora;
             this.tipo = tipo;
         }
