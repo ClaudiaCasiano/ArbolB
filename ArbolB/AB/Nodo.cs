@@ -19,6 +19,7 @@ namespace ArbolB.AB
         string tipo;
         Nodo[] hijoIzquierdo;
         Nodo[] hijoDerecho;
+        Nodo[] padre;
         public int pos;
 
 
@@ -35,6 +36,7 @@ namespace ArbolB.AB
             this.pos = 0;
             this.hijoDerecho = null;
             this.hijoIzquierdo = null;
+            this.padre = null;
         }
 
         public string Id
@@ -70,7 +72,7 @@ namespace ArbolB.AB
         public Nodo [] HijoDerecho
         {
             get{ return hijoDerecho; }
-            set { hijoDerecho = value}
+            set { hijoDerecho = value; }
 
         }
 
@@ -78,6 +80,12 @@ namespace ArbolB.AB
         {
             get { return hijoIzquierdo; }
             set { hijoIzquierdo = value; }
+        }
+
+        public Nodo[] Padre
+        {
+            get { return padre; }
+            set { padre = value; }
         }
 
 

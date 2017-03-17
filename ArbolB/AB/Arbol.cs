@@ -5,6 +5,19 @@ using System.Web;
 
 namespace ArbolB.AB
 {
+    /*
+     Que se hace ya?
+
+    1. se incerta el primero
+    2. se incerta a la derecha normalmente con arbol no lleno
+    3. 
+         
+         
+         */
+
+
+
+
     public class Arbol
     {
         Nodo[] raiz = new Nodo[5];
@@ -13,6 +26,7 @@ namespace ArbolB.AB
 
         public void insertar(string id, string activo, string usuario, string empresa, string depto, string fecha, string hora, string tipo)
         {
+            pos = 0;
             Nodo nuevo = new AB.Nodo(id, activo, usuario, empresa, depto, fecha, hora, tipo);
             actual = raiz;
 
@@ -26,32 +40,39 @@ namespace ArbolB.AB
             {
                 if (actual[4] == null) //si no esta lleno :33
                 {
-                    bool exito = false;
-                    while (!exito)
+                    bool exito = false; //bool que indica si seguri con el ciclo
+                    while (!exito)//mientras no haya exito
                     {
-                        if (actual[pos] == null)
+                        if (actual[pos] == null)//si la posicion actual es nada, por ejemplo en insertar un 30 y los datos son [10|20| | | ]
+
                         {
-                            if (actual[pos - 1].tieneHijoDerecho())
+                            if (actual[pos - 1].tieneHijoDerecho()) //Si la posicion actual -1 tiene un hijo derecho
                             {
-                                insertarDerecha(actual[pos - 1].HijoDerecho, nuevo);
+                                pos = 0;                //la posicion es cero
+                                InsertarEnHijo(actual[pos - 1].HijoDerecho, nuevo); //se mandara el hijo derecho a una insercion derecha
+                                break;
+                            }
+                            else
+                            {
+                                insertarDerechaNormal(actual, nuevo);//este va a insertar el nodo normal y verifica si la pagina esta llena
                             }
                         }
 
-                        if (nuevo.num() < actual[pos].num())
+                        else if (nuevo.num() < actual[pos].num())
                         {
                             if (actual[pos].tieneHijoIzquierdo())
                             {
-                                InsertarIzquierda(actual[pos].HijoIzquierdo, nuevo);
+                                InsertarEnHijo(actual[pos].HijoIzquierdo, nuevo);
                                 exito = true;
                             }
                             else
                             {
-                                pos++;
+                                insertarIzquierdoNormal(actual,nuevo);
                             }
                         }
                         else if (nuevo.num() > actual[pos].num())
                         {
-
+                            pos++;
                         }
                         else if (nuevo.num() == actual[pos].num())
                         {
@@ -67,27 +88,58 @@ namespace ArbolB.AB
 
         }
 
-        private void insertarDerecha(Nodo[] hijoDerecho, Nodo nuevo)
+        private void insertarIzquierdoNormal(Nodo[] actual, Nodo nuevo)
         {
-            throw new NotImplementedException();
-        }
+            Nodo aux1 = actual[pos];
+            Nodo aux = actual[pos];
+            actual[pos] = nuevo;
 
-        private void InsertarIzquierda(Nodo[] actual, Nodo nuevo)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void InsertarSimple(Nodo[] matriz, Nodo nuevo)
-        {
-            int lleno = -1;
-            actual = matriz
-            for(int i = 0; i < 4; i++)
+            for (int i = pos +1  ; i < 5; i++)
             {
-                if (actual[i] != null)
-                {
+                if(aux1!= null){
+                    aux1 = actual[i];
+                    actual[i] = aux;
+                    aux = aux1;
 
                 }
+                else
+                {
+                    break;
+                }
             }
+
+            if (actual[4]!= null)//significa que esta lleno
+            {
+                moverNodos(actual);
+            }
+
+
+
         }
+
+        private void insertarDerechaNormal(Nodo[] actual, Nodo nuevo) // solo inserta a la derecha, por lo tanto actual[pos] siempre sera un valor nulo
+        {
+            actual[pos] = nuevo;
+            if (pos == 4)
+            {  //si se llena la pagina
+                moverNodos(actual);
+            }
+
+        }
+
+
+
+        private void InsertarEnHijo(Nodo[] actual, Nodo nuevo)
+        {
+           //hasta que complete el insertar normalito :33
+        }
+
+
+        private void moverNodos(Nodo[] actual)
+        {
+            
+        }
+
+
     }
 }
