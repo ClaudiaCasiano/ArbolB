@@ -17,6 +17,8 @@ namespace ArbolB.AB
         string fecha;
         string hora;
         string tipo;
+        Nodo[] hijoIzquierdo;
+        Nodo[] hijoDerecho;
         public int pos;
 
 
@@ -31,6 +33,8 @@ namespace ArbolB.AB
             this.hora = hora;
             this.tipo = tipo;
             this.pos = 0;
+            this.hijoDerecho = null;
+            this.hijoIzquierdo = null;
         }
 
         public string Id
@@ -63,6 +67,20 @@ namespace ArbolB.AB
         }
 
 
+        public Nodo [] HijoDerecho
+        {
+            get{ return hijoDerecho; }
+            set { hijoDerecho = value}
+
+        }
+
+        public Nodo[] HijoIzquierdo
+        {
+            get { return hijoIzquierdo; }
+            set { hijoIzquierdo = value; }
+        }
+
+
         public int num()
         {
             string u = "dd";
@@ -80,6 +98,30 @@ namespace ArbolB.AB
             }
         }
 
+
+       public bool tieneHijoIzquierdo()
+        {
+            if (this.hijoIzquierdo == null)
+            {
+                return false;
+            }else
+            {
+                return true;
+            }
+        }
+
+
+        public bool tieneHijoDerecho()
+        {
+            if (this.hijoDerecho == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         public void nextletra()
         {
