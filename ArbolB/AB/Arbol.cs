@@ -167,7 +167,7 @@ namespace ArbolB.AB
                 }
                 else if (nuevo.num() == actual[pos].num())
                 {
-                    nuevo.nextletra();
+                    nuevo.nextletra(); 
                     actual[pos].nextletra();
                 }
             }
@@ -175,9 +175,26 @@ namespace ArbolB.AB
         }
 
 
-        private void moverNodos(Nodo[] actual)
+        private void moverNodos(Nodo[] matriz)
         {
-            
+            actual = matriz;
+            Nodo aux = actual[2];
+            Nodo[] nuevoIzq = new Nodo[5];
+            Nodo[] nuevoDer = new Nodo[5];
+            nuevoIzq[0] = actual[0];
+            nuevoIzq[1] = actual[1];
+            nuevoDer[0] = actual[3];
+            nuevoDer[1] = actual[4];
+
+            aux.HijoDerecho = nuevoDer;
+            aux.HijoIzquierdo = nuevoIzq;
+
+            if (tengoSueño)
+            {
+                Dormir();
+            }
+
+
         }
 
 
