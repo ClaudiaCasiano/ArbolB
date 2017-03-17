@@ -53,7 +53,7 @@ namespace ArbolB.AB
                             }
                             else
                             {
-                                insertarDerechaNormal(actual, nuevo);//este va a insertar el nodo normal y verifica si la pagina esta llena
+                                insertarDerechaNormal(actual, nuevo, pos);//este va a insertar el nodo normal y verifica si la pagina esta llena
                             }
                         }
 
@@ -66,7 +66,7 @@ namespace ArbolB.AB
                             }
                             else
                             {
-                                insertarIzquierdoNormal(actual,nuevo);// se inserta normal y verifica si se llena la pagina
+                                insertarIzquierdoNormal(actual,nuevo, pos);// se inserta normal y verifica si se llena la pagina
                             }
                         }
                         else if (nuevo.num() > actual[pos].num()) //si es mayor solo se mueve una posicion
@@ -87,11 +87,11 @@ namespace ArbolB.AB
 
         }
 
-        private void insertarIzquierdoNormal(Nodo[] actual, Nodo nuevo)
+        private void insertarIzquierdoNormal(Nodo[] actual, Nodo nuevo, int posi)
         {
-            Nodo aux1 = actual[pos];
-            Nodo aux = actual[pos];
-            actual[pos] = nuevo;
+            Nodo aux1 = actual[posi];
+            Nodo aux = actual[posi];
+            actual[posi] = nuevo;
 
             for (int i = pos +1  ; i < 5; i++)
             {
@@ -116,10 +116,10 @@ namespace ArbolB.AB
 
         }
 
-        private void insertarDerechaNormal(Nodo[] actual, Nodo nuevo) // solo inserta a la derecha, por lo tanto actual[pos] siempre sera un valor nulo
+        private void insertarDerechaNormal(Nodo[] actual, Nodo nuevo, int posi) // solo inserta a la derecha, por lo tanto actual[pos] siempre sera un valor nulo
         {
-            actual[pos] = nuevo;
-            if (pos == 4)
+            actual[posi] = nuevo;
+            if (posi == 4)
             {  //si se llena la pagina
                 moverNodos(actual);
             }
@@ -145,7 +145,7 @@ namespace ArbolB.AB
                     }
                     else
                     {
-                        insertarDerechaNormal(actual, nuevo);//este va a insertar el nodo normal y verifica si la pagina esta llena
+                        insertarDerechaNormal(actual, nuevo, pos);//este va a insertar el nodo normal y verifica si la pagina esta llena
                     }
                 }
 
@@ -158,7 +158,7 @@ namespace ArbolB.AB
                     }
                     else
                     {
-                        insertarIzquierdoNormal(actual, nuevo);// se inserta normal y verifica si se llena la pagina
+                        insertarIzquierdoNormal(actual, nuevo, pos);// se inserta normal y verifica si se llena la pagina
                     }
                 }
                 else if (nuevo.num() > actual[pos].num()) //si es mayor solo se mueve una posicion
@@ -189,9 +189,9 @@ namespace ArbolB.AB
             aux.HijoDerecho = nuevoDer;
             aux.HijoIzquierdo = nuevoIzq;
 
-            if (tengoSueño)
+            if (actual[0].tienePadre)
             {
-                Dormir();
+                
             }
 
 
