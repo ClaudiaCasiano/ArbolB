@@ -44,13 +44,12 @@ namespace ArbolB.AB
                     while (!exito)//mientras no haya exito
                     {
                         if (actual[pos] == null)//si la posicion actual es nada, por ejemplo en insertar un 30 y los datos son [10|20| | | ]
-
                         {
                             if (actual[pos - 1].tieneHijoDerecho()) //Si la posicion actual -1 tiene un hijo derecho
                             {
                                 pos = 0;                //la posicion es cero
                                 InsertarEnHijo(actual[pos - 1].HijoDerecho, nuevo); //se mandara el hijo derecho a una insercion derecha
-                                break;
+                                exito = true;
                             }
                             else
                             {
@@ -58,19 +57,19 @@ namespace ArbolB.AB
                             }
                         }
 
-                        else if (nuevo.num() < actual[pos].num())
+                        else if (nuevo.num() < actual[pos].num())//si es menor
                         {
-                            if (actual[pos].tieneHijoIzquierdo())
+                            if (actual[pos].tieneHijoIzquierdo())//revisa si hay un hijo antes del numero encontrado
                             {
-                                InsertarEnHijo(actual[pos].HijoIzquierdo, nuevo);
+                                InsertarEnHijo(actual[pos].HijoIzquierdo, nuevo);//se manda a insertar abajo
                                 exito = true;
                             }
                             else
                             {
-                                insertarIzquierdoNormal(actual,nuevo);
+                                insertarIzquierdoNormal(actual,nuevo);// se inserta normal y verifica si se llena la pagina
                             }
                         }
-                        else if (nuevo.num() > actual[pos].num())
+                        else if (nuevo.num() > actual[pos].num()) //si es mayor solo se mueve una posicion
                         {
                             pos++;
                         }
@@ -129,9 +128,50 @@ namespace ArbolB.AB
 
 
 
-        private void InsertarEnHijo(Nodo[] actual, Nodo nuevo)
+        private void InsertarEnHijo(Nodo[] matriz, Nodo nuevo)
         {
-           //hasta que complete el insertar normalito :33
+            pos = 0;
+            actual = matriz;
+            bool exito = false; //bool que indica si seguri con el ciclo
+            while (!exito)//mientras no haya exito
+            {
+                if (actual[pos] == null)//si la posicion actual es nada, por ejemplo en insertar un 30 y los datos son [10|20| | | ]
+                {
+                    if (actual[pos - 1].tieneHijoDerecho()) //Si la posicion actual -1 tiene un hijo derecho
+                    {
+                        pos = 0;                //la posicion es cero
+                        InsertarEnHijo(actual[pos - 1].HijoDerecho, nuevo); //se mandara el hijo derecho a una insercion derecha
+                        exito = true;
+                    }
+                    else
+                    {
+                        insertarDerechaNormal(actual, nuevo);//este va a insertar el nodo normal y verifica si la pagina esta llena
+                    }
+                }
+
+                else if (nuevo.num() < actual[pos].num())//si es menor
+                {
+                    if (actual[pos].tieneHijoIzquierdo())//revisa si hay un hijo antes del numero encontrado
+                    {
+                        InsertarEnHijo(actual[pos].HijoIzquierdo, nuevo);//se manda a insertar abajo
+                        exito = true;
+                    }
+                    else
+                    {
+                        insertarIzquierdoNormal(actual, nuevo);// se inserta normal y verifica si se llena la pagina
+                    }
+                }
+                else if (nuevo.num() > actual[pos].num()) //si es mayor solo se mueve una posicion
+                {
+                    pos++;
+                }
+                else if (nuevo.num() == actual[pos].num())
+                {
+                    nuevo.nextletra();
+                    actual[pos].nextletra();
+                }
+            }
+
         }
 
 
