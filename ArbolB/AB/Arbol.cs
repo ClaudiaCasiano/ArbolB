@@ -19,7 +19,7 @@ namespace ArbolB.AB
             if (raiz[0] == null)
             {
                 raiz[0] = nuevo;
-                Console.WriteLine("se creo el primer nodo con "+ nuevo.Id);
+                Console.WriteLine("se creo el primer nodo con " + nuevo.Id);
 
             }
             else
@@ -76,4 +76,18 @@ namespace ArbolB.AB
         {
             throw new NotImplementedException();
         }
+
+        private void InsertarSimple(Nodo[] matriz, Nodo nuevo)
+        {
+            int lleno = -1;
+            actual = matriz
+            for(int i = 0; i < 4; i++)
+            {
+                if (actual[i] != null)
+                {
+
+                }
+            }
+        }
     }
+}
