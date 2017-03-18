@@ -17,10 +17,9 @@ namespace ArbolB.AB
         string fecha;
         string hora;
         string tipo;
-        Nodo[] hijoIzquierdo;
-        Nodo[] hijoDerecho;
-        Nodo[] padre;
-        public int pos;
+        Pagina hijoIzquierdo;
+        Pagina hijoDerecho;
+        public int pos = 0;
 
 
         public Nodo(string id, string activo, string usuario, string empresa, string depto, string fecha, string hora, string tipo)
@@ -30,13 +29,12 @@ namespace ArbolB.AB
             this.usuario = usuario;
             this.empresa = empresa;
             this.depto = depto;
-            this.fecha = fecha;   
+            this.fecha = fecha;
             this.hora = hora;
             this.tipo = tipo;
             this.pos = 0;
             this.hijoDerecho = null;
             this.hijoIzquierdo = null;
-            this.padre = null;
         }
 
         public string Id
@@ -51,6 +49,7 @@ namespace ArbolB.AB
             get { return usuario; }
             set { usuario = value; }
         }
+
 
 
         public bool Esletra()
@@ -69,50 +68,48 @@ namespace ArbolB.AB
         }
 
 
-        public Nodo [] HijoDerecho
+        public Pagina HijoDerecho
         {
-            get{ return hijoDerecho; }
+            get { return hijoDerecho; }
             set { hijoDerecho = value; }
 
         }
 
-        public Nodo[] HijoIzquierdo
+        public Pagina HijoIzquierdo
         {
             get { return hijoIzquierdo; }
             set { hijoIzquierdo = value; }
         }
 
-        public Nodo[] Padre
-        {
-            get { return padre; }
-            set { padre = value; }
-        }
-
 
         public int num()
         {
-            string u = "dd";
+
             string n = Id[pos].ToString();
-        
-            if (Id[pos].GetType() == u.GetType())
+            try
             {
-                int ac =  Encoding.ASCII.GetBytes(n)[0];
+                int ac = Encoding.ASCII.GetBytes(n)[0];
                 return ac;
-            }else
+            }
+            catch (Exception)
             {
-                int ac=0;
+
+                int ac;
                 int.TryParse(n, out ac);
                 return ac;
             }
+
+
         }
 
 
-       public bool tieneHijoIzquierdo()
+        public bool tieneHijoIzquierdo()
         {
             if (this.hijoIzquierdo == null)
             {
                 return false;
-            }else
+            }
+            else
             {
                 return true;
             }
@@ -134,6 +131,11 @@ namespace ArbolB.AB
         public void nextletra()
         {
             pos++;
+        }
+
+        public void reiniciar()
+        {
+            pos = 0;
         }
 
 
