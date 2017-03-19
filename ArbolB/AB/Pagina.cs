@@ -7,64 +7,98 @@ namespace ArbolB.AB
 {
     public class Pagina
     {
-        Pagina padre;
-        int nodos; //cantidad de nodos disponibles
-        int noclaves = 4;
-        Nodo[] claves;
+        //=========
 
+        public Pagina[] Ramas = new Pagina[5];
+        public Nodo[] Claves = new Nodo[5];
+        public int Cuentas = 0;
 
+        public Pagina(Nodo clave)
+        {
+            Claves[0] = clave;
+        }
 
         public Pagina()
         {
-            this.padre = null;
-            this.nodos = 0;
-            claves = new Nodo[5];
         }
 
-
-        public Nodo[] Claves
-        {
-            get { return claves; }
-            set { claves = value; }
-        }
+        //================
 
 
-        public void insert(Nodo clave)
-        {
-            Nodo nuevo = clave;
-            if (nodos <= noclaves)
-            {
-                Claves[nodos] = nuevo;
-                Claves[nodos].reiniciar();
-                this.nodos++;
 
-            }
-        }
+        //Pagina padre;
+        //int nodos; //cantidad de nodos disponibles
+        //int m= 5; //editar para cambiar el orden del arbols
+        //int maxRamas;
 
-        public Pagina Padre
-        {
-            get { return padre; }
-            set { padre = value; }
-        }
+        //int maxClaves;
+        //int minClaves;
+
+        //Pagina[] ramas;
+        //Nodo[] claves;
 
 
-        public bool estaVacia()
-        {
-            if (this.nodos == 0)
-            {
-                return true;
-            }
-            return false;
-        }
 
-        public bool Estalleno()
-        {
-            if (nodos == noclaves)
-            {
-                return true;
-            }
-            return false;
-        }
+        //public Pagina()
+        //{
+        //    this.m = 5;
+
+        //    this.maxRamas = m;
+
+        //    this.maxClaves = m - 1;
+        //    this.minClaves = (m - 1) / 2;
+
+        //    this.padre = null;
+        //    this.nodos = 0;
+
+        //    claves = new Nodo[m];
+        //    ramas = new Pagina[m + 1];
+        //}
+
+
+        //public Nodo[] Claves
+        //{
+        //    get { return claves; }
+        //    set { claves = value; }
+        //}
+
+
+        //public void insert(Nodo clave,int pos)
+        //{
+        //    Nodo nuevo = clave;
+
+        //        Claves[pos] = nuevo;
+
+        //        Claves[pos].reiniciar();
+        //        nodos++;
+
+
+        //}
+
+        //public Pagina Padre
+        //{
+        //    get { return padre; }
+        //    set { padre = value; }
+        //}
+
+
+        //public bool estaVacia()
+        //{
+        //    if (this.nodos == 0)
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
+        //public bool Estalleno()
+        //{
+        //    if (Claves[4]!= null)
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
 
 

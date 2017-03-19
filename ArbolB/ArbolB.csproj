@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AB\Arbol.cs" />
+    <Compile Include="AB\Arbol2.cs" />
     <Compile Include="AB\Nodo.cs" />
     <Compile Include="AB\Pagina.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
