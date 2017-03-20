@@ -5,115 +5,72 @@ using System.Web;
 
 namespace ArbolB.AB
 {
-    public class Arbol2
+    class Arbol2
     {
         Queue<Pagina> lista = new Queue<Pagina>();
         public Queue<String> hijos = new Queue<String>();
-        int num = 1;
+        public int num = 1;
+        int com = 1;
 
 
         public Pagina principal = new Pagina();
-        Pagina Xder = new Pagina();
-        Pagina Xizq = new Pagina();
-        Nodo X;
-        Pagina Xr;
-        String salida = "", imps = "";
-        bool EmpA = false, Esta = false;
+        Pagina MovDer = new Pagina();
+        Pagina MovIz = new Pagina();
+        Nodo Mov;
+        Pagina NRaiz;
+        bool EmpujarArriba = false, Esta = false;
 
 
-        public Nodo nuevo(int id/*, string activo, string usuario, string empresa, string depto, string fecha, string hora, string tipo*/)
-        {
-            Nodo nuev = new Nodo();
-            nuev.nump = id;
-            return nuev;
-        }
-
-        // insertar
-        public void Inserta(Nodo clave)
-        {
-            Insertaa(clave, principal);
-        }
-        //auxiliar de inserta nodo
-
-        public void Insertaa(Nodo clave, Pagina raiz)
-        {
-            Empujar(clave, raiz);
-            if (EmpA)
-            {
-                principal = new Pagina();
-                principal.Cuentas = 1;
-                principal.Claves[0] = X;
-                principal.Ramas[0] = raiz;
-                principal.Ramas[1] = Xr;
-            }
-            Console.WriteLine("Insercion Completa");
-        }
-        //Empuja los elementos del arbol
-
-
-
-        public bool Vacio(Pagina raiz)
-        {
-            return (raiz == null || raiz.Cuentas == 0);
-        }
-
+        //============================BUSQUEDA Y VERIFICAIONES======================================
 
         public int BuscarNodo(Nodo clave, Pagina raiz)
         {
+            com = 0;
             int j = 0;
-            if (clave.nump < raiz.Claves[0].nump)
+            if (clave.Id.CompareTo(raiz.Claves[0].Id) < 0/*clave.nump() < raiz.Claves[0].nump()*/)//es porque no hay que correrlo, es un |2| y la raiz es por ejemplo  |8|25|33
             {
                 Esta = false;
                 j = 0;
             }
             else
             {
-                j = raiz.Cuentas;
-                while (clave.nump < raiz.Claves[j - 1].nump && j > 1)
+                j = raiz.Cuentas;//el numero actual de nodos llenos
+                while (clave.Id.CompareTo(raiz.Claves[j - 1].Id) < 0 && j > 1)//mientras el nuevo nodo sea menor que el de la clave de la raiz -2 y j sea mayor a 1
                 {
                     --j;
                 }
-                Esta = (clave.nump == raiz.Claves[j - 1].nump);
-            }
-            return j;
-        }
-        //miembro
 
-        public bool Miembro(Nodo clave, Pagina raiz)
-        {
-            bool si = false;
-            int j = 0;
-            if (!Vacio(principal))
-            {
-                if (clave.nump < raiz.Claves[0].nump)
+                if (clave.Id == raiz.Claves[j - 1].Id)
                 {
-                    si = false;
-                    j = 0;
+                    Esta = true;
+
                 }
                 else
                 {
-                    j = raiz.Cuentas;
-                    while (clave.nump < raiz.Claves[j - 1].nump && j > 1)
-                    {
-                        --j;
-                    }
-                    si = (clave.nump == raiz.Claves[j - 1].nump);
+                    Esta = false;
                 }
+
             }
-            return si;
+            return j;
         }
 
+        public bool pagVacia(Pagina raiz)
+        {
+            return (raiz == null || raiz.Cuentas == 0);//metodo guay :33
+        }
 
 
         public void Empujar(Nodo clave, Pagina raiz)
         {
+
             int k = 0;
             Esta = false;
-            if (Vacio(raiz))
+            if (pagVacia(raiz))
             {
-                EmpA = true;
-                X = clave;
-                Xr = null;
+
+                EmpujarArriba = true;
+                Mov = clave;
+                NRaiz = null;
             }
             else
             {
@@ -121,30 +78,75 @@ namespace ArbolB.AB
                 if (Esta)
                 {
                     Console.WriteLine("No hay claves repetidas");
-                    EmpA = false;
+                    EmpujarArriba = false;
                 }
                 else
                 {
                     Empujar(clave, raiz.Ramas[k]);
-                    if (EmpA)
+                    if (EmpujarArriba)
                     {
                         if (raiz.Cuentas < 4)
                         {
-                            EmpA = false;
-                            MeterHoja(X, raiz, k);
+                            EmpujarArriba = false;
+                            InsertarClave(Mov, raiz, k);
                         }
                         else
                         {
-                            EmpA = true;
-                            DividirN(X, raiz, k);
+                            EmpujarArriba = true;
+                            MoverNodos(Mov, raiz, k);
                         }
                     }
                 }
             }
         }
-        //Meter hoja
 
-        public void MeterHoja(Nodo clave, Pagina raiz, int k)
+        public void print()
+        {
+            num = 1;
+            Console.WriteLine();
+            hijos.Enqueue("Raiz");
+            imprimir(principal);
+        }
+
+
+
+        //==============================INSERTAR NODO===============================================
+
+
+
+        //crea un nuevo nodo con los objetos que mande
+        public Nodo nuevo(string id/*, string activo, string usuario, string empresa, string depto, string fecha, string hora*/)
+        {
+            Nodo nuev = new Nodo(id);
+            //nuev.nump() = id;
+            return nuev;
+        }
+
+        // insertar para un nuevo nodo creado
+        public void InsertarNuevo(Nodo nuevo)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("se incertara un nuevo nodo");
+            InsertarYa(nuevo, principal);
+        }
+
+
+        public void InsertarYa(Nodo clave, Pagina raiz)//insertara el nuevo nodo en la raiz que manden como parametro
+        {
+            Empujar(clave, raiz);
+            if (EmpujarArriba)
+            {
+                principal = new Pagina();
+                principal.Cuentas = 1;
+                principal.Claves[0] = Mov;
+                principal.Ramas[0] = raiz;
+                principal.Ramas[1] = NRaiz;
+            }
+            Console.WriteLine("Se inserto " + clave.Id);
+        }
+
+
+        public void InsertarClave(Nodo clave, Pagina raiz, int k)
         {
             int i = raiz.Cuentas;
             while (i != k)
@@ -154,112 +156,57 @@ namespace ArbolB.AB
                 --i;
             }
             raiz.Claves[k] = clave;
-            raiz.Ramas[k + 1] = Xr;
+            raiz.Ramas[k + 1] = NRaiz;
             raiz.Cuentas = ++raiz.Cuentas;
         }
-        //Dividir nodo
 
-        public void DividirN(Nodo Clave, Pagina Raiz, int k)
+        public void MoverNodos(Nodo Clave, Pagina Raiz, int k)
         {
             int pos = 0;
-            int Posmda = 0;
+            int pMedia = 0;
             if (k <= 2)
             {
-                Posmda = 2;
+                pMedia = 2;//
             }
             else
             {
-                Posmda = 3;
+                pMedia = 3;
             }
             Pagina Mder = new Pagina();
-            pos = Posmda + 1;
+            pos = pMedia + 1;
             while (pos != 5)
             {
-                Mder.Claves[(pos - Posmda) - 1] = Raiz.Claves[pos - 1];
-                Mder.Ramas[pos - Posmda] = Raiz.Ramas[pos];
+                Mder.Claves[(pos - pMedia) - 1] = Raiz.Claves[pos - 1];
+                Mder.Ramas[pos - pMedia] = Raiz.Ramas[pos];
                 ++pos;
             }
-            Mder.Cuentas = 4 - Posmda;
-            Raiz.Cuentas = Posmda;
+            Mder.Cuentas = 4 - pMedia;
+            Raiz.Cuentas = pMedia;
             if (k <= 2)
             {
-                MeterHoja(Clave, Raiz, k);
+                InsertarClave(Clave, Raiz, k);
             }
             else
             {
-                MeterHoja(Clave, Mder, (k - Posmda));
+                InsertarClave(Clave, Mder, (k - pMedia));
             }
-            X = Raiz.Claves[Raiz.Cuentas - 1];
+            Mov = Raiz.Claves[Raiz.Cuentas - 1];
             Mder.Ramas[0] = Raiz.Ramas[Raiz.Cuentas];
             Raiz.Cuentas = --Raiz.Cuentas;
-            Xr = Mder;
+            NRaiz = Mder;
         }
 
 
 
 
 
-
-
-
-        public void imprimir(Pagina raiz)
-        {
-            Console.WriteLine(hijos.Dequeue());
-            int a = 0;
-            Nodo impresion;
-
-            for (int i = 0; i < 5; i++)
-            {
-                impresion = raiz.Claves[i];
-                if (impresion == null)
-                {
-                    break;
-                }
-                Console.WriteLine(num + ". " + raiz.Claves[i].nump);
-                num++;
-            }
-
-
-
-            if (raiz.Ramas[0] != null)
-            {
-                Pagina ram;
-                for (int i = 0; i < 5; i++)
-                {
-                    ram = raiz.Ramas[i];
-                    if (ram == null)
-                    {
-                        break;
-                    }
-                    hijos.Enqueue("rama no." + i + "de la pagina que inicia con " + raiz.Claves[0].nump);
-                    lista.Enqueue(raiz.Ramas[i]);
-                }
-
-
-            }
-
-
-
-            try
-            {
-                imprimir(lista.Dequeue());
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Se imprimieron todos los nodos");
-
-            }
-        }
-
-
-
-
+        //=========================ELIMINACION  D:<   =================
 
         public void Eliminar(Nodo clave)
         {
-            if (Vacio(principal))
+            if (pagVacia(principal))
             {
-                Console.WriteLine("No hay elementos");
+                Console.WriteLine("El arbol esta vacio ");
             }
             else
             {
@@ -288,16 +235,14 @@ namespace ArbolB.AB
                     Raiz = Raiz.Ramas[0];
                 }
                 principal = Raiz;
-                Console.WriteLine("Eliminacion completa");
+                Console.WriteLine("Se elimino" + clave.Id);
             }
         }
-        //Elimina el registro
 
         public void EliminarRegistro(Pagina raiz, Nodo c)
         {
             int pos = 0;
-            Nodo sucesor;
-            if (Vacio(raiz))
+            if (pagVacia(raiz))
             {
                 Esta = false;
             }
@@ -306,9 +251,9 @@ namespace ArbolB.AB
                 pos = BuscarNodo(c, raiz);
                 if (Esta)
                 {
-                    if (Vacio(raiz.Ramas[pos - 1]))
+                    if (pagVacia(raiz.Ramas[pos - 1]))
                     {
-                        Quitar(raiz, pos);
+                        ALV(raiz, pos);
                     }
                     else
                     {
@@ -326,38 +271,35 @@ namespace ArbolB.AB
                 }
             }
         }
-        //Busca el sucesor
 
         public void Sucesor(Pagina raiz, int k)
         {
             Pagina q = raiz.Ramas[k];
-            while (!Vacio(q.Ramas[0]))
+            while (!pagVacia(q.Ramas[0]))
             {
                 q = q.Ramas[0];
             }
             raiz.Claves[k - 1] = q.Claves[0];
         }
-        //Combina para formar un nodo
 
         public void Combina(Pagina raiz, int pos)
         {
             int j;
-            Xder = raiz.Ramas[pos];
-            Xizq = raiz.Ramas[pos - 1];
-            Xizq.Cuentas++;
-            Xizq.Claves[Xizq.Cuentas - 1] = raiz.Claves[pos - 1];
-            Xizq.Ramas[Xizq.Cuentas] = Xder.Ramas[0];
+            MovDer = raiz.Ramas[pos];
+            MovIz = raiz.Ramas[pos - 1];
+            MovIz.Cuentas++;
+            MovIz.Claves[MovIz.Cuentas - 1] = raiz.Claves[pos - 1];
+            MovIz.Ramas[MovIz.Cuentas] = MovDer.Ramas[0];
             j = 1;
-            while (j != Xder.Cuentas + 1)
+            while (j != MovDer.Cuentas + 1)
             {
-                Xizq.Cuentas++;
-                Xizq.Claves[Xizq.Cuentas - 1] = Xder.Claves[j - 1];
-                Xizq.Ramas[Xizq.Cuentas] = Xder.Ramas[j];
+                MovIz.Cuentas++;
+                MovIz.Claves[MovIz.Cuentas - 1] = MovDer.Claves[j - 1];
+                MovIz.Ramas[MovIz.Cuentas] = MovDer.Ramas[j];
                 j++;
             }
-            Quitar(raiz, pos);
+            ALV(raiz, pos);
         }
-        //Mueve a la derecha
 
         public void MoverDer(Pagina raiz, int pos)
         {
@@ -375,7 +317,6 @@ namespace ArbolB.AB
             raiz.Ramas[pos].Ramas[0] = raiz.Ramas[pos - 1].Ramas[raiz.Ramas[pos - 1].Cuentas];
             raiz.Ramas[pos - 1].Cuentas--;
         }
-        //Mover a la izquierda
 
         public void MoverIzq(Pagina raiz, int pos)
         {
@@ -394,9 +335,8 @@ namespace ArbolB.AB
                 i++;
             }
         }
-        //Quita el elemento
 
-        public void Quitar(Pagina raiz, int pos)
+        public void ALV(Pagina raiz, int pos)// O sea quitar XD
         {
             int j = pos + 1;
             while (j != raiz.Cuentas + 1)
@@ -407,7 +347,6 @@ namespace ArbolB.AB
             }
             raiz.Cuentas--;
         }
-        //Restablece el nodo
 
         public void Restablecer(Pagina raiz, int pos)
         {
@@ -431,5 +370,64 @@ namespace ArbolB.AB
                 Combina(raiz, 1);
             }
         }
+
+
+
+        //========================varios===============================
+        public void imprimir(Pagina raiz)
+        {
+            Console.WriteLine(hijos.Dequeue());
+            int a = 0;
+            Nodo impresion;
+
+            for (int i = 0; i < raiz.Cuentas; i++)
+            {
+                impresion = raiz.Claves[i];
+                if (impresion == null)
+                {
+                    i = 5;
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine(num + ". " + raiz.Claves[i].Id);
+                    num++;
+                }
+
+            }
+
+
+
+            if (raiz.Ramas[0] != null)
+            {
+                Pagina ram;
+                for (int i = 0; i < raiz.Cuentas + 1; i++)
+                {
+                    ram = raiz.Ramas[i];
+                    if (ram == null)
+                    {
+                        break;
+                    }
+                    hijos.Enqueue("rama no. " + i + " de la pagina que inicia con " + raiz.Claves[0].Id);
+                    lista.Enqueue(raiz.Ramas[i]);
+                }
+
+
+            }
+
+
+
+            try
+            {
+                imprimir(lista.Dequeue());
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Se imprimieron todos los nodos");
+
+            }
+        }
+
+
     }
 }
