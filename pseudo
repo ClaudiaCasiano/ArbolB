@@ -1,0 +1,120 @@
+pseudo
+
+
+Pagina principal es la raiz
+
+pagina movDer es la pagina nueva que se pondra a la  derecha
+
+pagina iz es lo mismo pero a la izquierda
+
+pagina nraiz es una nueva raiz
+
+bool EmpA empujar arriba, o sea subir de raiz
+
+bool esta si esta :v
+
+--------------------------------------
+
+PAGVACIA (pagina raiz)
+	retorna si la pagina esta vacia
+
+---------------------------------------
+
+BUSCAR NODO( nodo clave, pagina raiz) devuelve un entero
+	int j = 0
+		si el numero de la clave es menor que la clave en la posicion 0
+			es porque no esta? y devuelve 0
+
+		si no
+			j = numero de nodos llenos de la raiz
+
+			mientras la clave sea menor a la posicion j-1 de la raiz y j sea mayor que 1
+				j disminuye en 1
+			si la clave es igual la raiz en la posicion j -1, esta, y si no,.. pos no
+
+	regresa j, que es la posicion en donde se colocara el nodo
+
+
+
+------------------------------------------
+
+EMPUJAR(nodo clave, Pagina raiz)
+	int = 0
+	esta es falso (o sea desimos que no esta XD)
+
+	si(la pagina esta vacia)
+
+		empujar arriba = true
+		el nodo mover es  clave
+		nueva raiz es nada
+	
+	si no
+		k=la posicon donde se empujara el nodo
+		si(se empuja hacia arriba){
+
+			si la raiz no esta llena
+			{
+				no se empuja hacia arriba
+				METERHOJA(nodo a mover, raiz, la posicion en la que se inserta)
+			}
+
+			si esta llena{
+				empujar hacia arriba es verdadero
+				se divide el nodo(nodo a mover, raiz, posicionen la que se inserta)
+			}
+		}
+--------------------------------------
+METER HOJA( nodo clave, pagina raiz, int k)
+	int i = numero de nodos llenos de la raiz
+
+	mientras(i no sea igual a k)
+		la clave en i de la raiz es igual a la clave anterior
+
+		se corre la rama de i, a i+1
+
+		i--
+
+	se inserta la nueva clave en la posicon k
+	se crea una nueva rama k+1
+	se aumenta el numero de nodos de la raiz
+
+-------------------------------------------
+
+DIVIDIR RAIZ(nodo clave, pagina raiz, int k) ///metodo kk // este metodo es cuando la raiz esta llena y hay que partirle la madre, la posicion k es donde se deberia insertar
+
+	int pos =0
+	int posMedia = 0
+
+	si k es menor a 2
+		la posicion Media = 2
+
+	si es mayor
+		pmedia es 3
+
+	Pagina derecha = nueva pagina
+	pos = posicionmedia +1;
+
+	mientras la posicion no sea = a 5
+		meterderecho.claves en (pos - pos media) = clave de la raiz en pos-1
+
+		meterderecho.ramas(pos-posmed) = la rama de la raiz en la pos
+
+		pos++
+
+	numero de claves en meter derecho = 4 - posmedia
+	numero de claves de la raiz es la media
+
+		si k es menor a 2
+			METERLA HOJA (clave, raiz, posicon k)
+		si no
+			meter la clave en meterderecho en k-posmedia
+
+
+ 		nodoamover = Raiz.Claves[Raiz.Cuentas - 1];
+        Mder.Ramas[0] = Raiz.Ramas[Raiz.Cuentas];
+        Raiz.Cuentas = --Raiz.Cuentas;
+        NRaiz = Mder;
+
+
+
+
