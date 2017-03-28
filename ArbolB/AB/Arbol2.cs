@@ -115,9 +115,9 @@ namespace ArbolB.AB
 
 
         //crea un nuevo nodo con los objetos que mande
-        public Nodo nuevo(string id/*, string activo, string usuario, string empresa, string depto, string fecha, string hora*/)
+        public Nodo nuevo(string activo, string usuario, string empresa, string depto, string fecha, string hora)
         {
-            Nodo nuev = new Nodo(id);
+            Nodo nuev = new Nodo(caractrRan(), activo, usuario, empresa, depto, fecha, hora);
             //nuev.nump() = id;
             return nuev;
         }
@@ -239,7 +239,7 @@ namespace ArbolB.AB
             }
         }
 
-        public void EliminarRegistro(Pagina raiz, Nodo c)
+        public void EliminarRegistro(Pagina raiz, Nodo quita)
         {
             int pos = 0;
             if (pagVacia(raiz))
@@ -248,7 +248,7 @@ namespace ArbolB.AB
             }
             else
             {
-                pos = BuscarNodo(c, raiz);
+                pos = BuscarNodo(quita, raiz);
                 if (Esta)
                 {
                     if (pagVacia(raiz.Ramas[pos - 1]))
@@ -263,7 +263,7 @@ namespace ArbolB.AB
                 }
                 else
                 {
-                    EliminarRegistro(raiz.Ramas[pos], c);
+                    EliminarRegistro(raiz.Ramas[pos], quita);
                     if ((raiz.Ramas[pos] != null) && (raiz.Ramas[pos].Cuentas < 2))
                     {
                         Restablecer(raiz, pos);
@@ -272,17 +272,17 @@ namespace ArbolB.AB
             }
         }
 
-        public void Sucesor(Pagina raiz, int k)
+        public void Sucesor(Pagina raiz, int pos)
         {
-            Pagina q = raiz.Ramas[k];
+            Pagina q = raiz.Ramas[pos];
             while (!pagVacia(q.Ramas[0]))
             {
                 q = q.Ramas[0];
             }
-            raiz.Claves[k - 1] = q.Claves[0];
+            raiz.Claves[pos - 1] = q.Claves[0];
         }
 
-        public void Combina(Pagina raiz, int pos)
+        public void Combinar(Pagina raiz, int pos)
         {
             int j;
             MovDer = raiz.Ramas[pos];
@@ -290,6 +290,8 @@ namespace ArbolB.AB
             MovIz.Cuentas++;
             MovIz.Claves[MovIz.Cuentas - 1] = raiz.Claves[pos - 1];
             MovIz.Ramas[MovIz.Cuentas] = MovDer.Ramas[0];
+
+
             j = 1;
             while (j != MovDer.Cuentas + 1)
             {
@@ -358,7 +360,7 @@ namespace ArbolB.AB
                 }
                 else
                 {
-                    Combina(raiz, pos);
+                    Combinar(raiz, pos);
                 }
             }
             else if (raiz.Ramas[1].Cuentas > 2)
@@ -367,7 +369,7 @@ namespace ArbolB.AB
             }
             else
             {
-                Combina(raiz, 1);
+                Combinar(raiz, 1);
             }
         }
 
@@ -428,6 +430,31 @@ namespace ArbolB.AB
             }
         }
 
+
+
+
+        public string caractrRan()
+        {
+            System.Threading.Thread.Sleep(01);
+            Random obj = new Random(DateTime.Now.Millisecond);
+            string posibles = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            int longitud = posibles.Length;
+            char letra;
+            int longitudnuevacadena = 15;
+
+            string nuevacadena = "";
+
+            for (int i = 0; i < longitudnuevacadena; i++)
+
+            {
+
+                letra = posibles[obj.Next(longitud)];
+                nuevacadena += letra.ToString();
+
+            }
+            Console.WriteLine("el random creado es " + nuevacadena);
+            return nuevacadena;
+        }
 
     }
 }
